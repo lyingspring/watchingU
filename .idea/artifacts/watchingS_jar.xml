@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="watchingS:jar">
+    <output-path>$PROJECT_DIR$/../watchingU/out/artifacts/watchingS_jar</output-path>
+    <root id="root">
+      <element id="archive" name="watchingS.jar">
+        <element id="module-output" name="watchingS" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/../watchingU/test1/lib/mail.jar" />
+      <element id="library" level="project" name="src" />
+      <element id="file-copy" path="$PROJECT_DIR$/../watchingU/test1/lib/activation.jar" />
+    </root>
+  </artifact>
+</component>
