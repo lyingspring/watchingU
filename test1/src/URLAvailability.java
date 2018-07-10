@@ -5,6 +5,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.sql.Array;
@@ -20,6 +22,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.net.ssl.HttpsURLConnection;
+
 import com.sun.mail.util.MailSSLSocketFactory;
 import com.sun.org.apache.bcel.internal.classfile.Constant;
 
@@ -33,6 +37,8 @@ import com.sun.org.apache.bcel.internal.classfile.Constant;
 public class URLAvailability {
     private static URL url;
     private static HttpURLConnection con;
+    private static HttpsURLConnection cons;
+    //private static Socket socket=new Socket();
     private static int state = -1;
 
     /**
@@ -44,29 +50,47 @@ public class URLAvailability {
      */
     public String isConnect(String urlStr) {
         int counts = 0;
+        boolean returnflag=false;
+
         if (urlStr == null || urlStr.length() <= 0) {
-            return null;
+            return "0";
         }
+        String tempUrl=urlStr.substring(0, 5);//取出地址前5位
+        String[] addr=urlStr.split(":");//地址和端口分离
         String returnMsg=null;
         while (counts < 5) {
             try {
-                url = new URL(urlStr);
-                con = (HttpURLConnection) url.openConnection();
-                con.setConnectTimeout(5000);   //超过3秒就连接超时了
-                //con.setRequestMethod("GET");    //使用的http的get方法
-                state = con.getResponseCode();
 
-                System.out.println(counts + "= " + state);
-                if (state == 200) {
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                    System.out.println(urlStr+"URL可用！"+df.format(new Date()));
+                if(tempUrl.contains("http")){//判断传过来的地址中是否有http
+                    if(tempUrl.equals("https")){//判断服务器是否是https协议
+                        returnflag=httpsIsConnect(urlStr);
+                    }else{
+                        returnflag=httpIsConnect(urlStr);
+                    }
+
+                }else{//传过来的是IP地址
+
+                    if(addr.length<2){
+                        returnflag=socketIsConnect(addr[0],80);
+                    }else{
+                        returnflag=socketIsConnect(addr[0],Integer.valueOf(addr[1]) );
+                    }
+
+
                 }
-                break;
+
+
+                if(returnflag){
+                    break;
+                }else{
+                    counts++;
+                    System.out.println(urlStr+" URL不可用，连接第 " + counts + " 次");
+                }
+
             } catch (Exception ex) {
                 counts++;
-                System.out.println(urlStr+"URL不可用，连接第 " + counts + " 次");
+                System.out.println(urlStr+" URL不可用，连接第 " + counts + " 次");
                 //urlStr = null;
-
                 continue;
             }
         }
@@ -79,6 +103,93 @@ public class URLAvailability {
     }
 
         return returnMsg;
+    }
+    public  boolean httpIsConnect(String urlStr){
+
+        try{
+            url = new URL(urlStr);
+            con = (HttpURLConnection) url.openConnection();
+            con.setConnectTimeout(5000);   //超过5秒就连接超时了
+            //con.setRequestMethod("GET");    //使用的http的get方法
+            state = con.getResponseCode();
+
+           // System.out.println(counts + "= " + state);
+            if (state == 200) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                System.out.println(urlStr+" URL可用！"+df.format(new Date()));
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception ex) {
+            //System.out.println("fail");
+            //e.printStackTrace();
+            return false;
+        }finally{
+            try{
+                con.disconnect();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public  boolean httpsIsConnect(String urlStr){
+
+        try{
+            url = new URL(urlStr);
+            cons = (HttpsURLConnection) url.openConnection();
+            cons.setConnectTimeout(5000);   //超过5秒就连接超时了
+            //cons.setRequestMethod("GET");    //使用的http的get方法
+            state = cons.getResponseCode();
+
+            // System.out.println(counts + "= " + state);
+            if (state == 200) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                System.out.println(urlStr+" URL可用！"+df.format(new Date()));
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception ex) {
+            //System.out.println("fail");
+            //e.printStackTrace();
+            return false;
+        }finally{
+            try{
+                cons.disconnect();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    public  boolean socketIsConnect(String host,int port){
+        Socket socket = new Socket();
+        try{
+            //socket.setSoTimeout(1000);
+            socket.connect(new InetSocketAddress(host, port),3000);//超时时间为3秒
+        }catch (IOException e) {
+            System.out.println("fail "+e.getMessage());
+            //e.printStackTrace();
+            return false;
+        }finally{
+            try{
+                if(socket!=null){
+                socket.close();
+                    //socket.isConnected();
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        System.out.println(host+":"+port+" URL可用！"+df.format(new Date()));
+        return true;
+
     }
 
     public static void main(String[] args) throws GeneralSecurityException, IOException, InterruptedException {
@@ -100,6 +211,7 @@ public class URLAvailability {
            for (int i = 0; i < list2.size(); i++) {
                u.sendEmail(list2.get(i).getCodeName() + ":" + outMsg, list2.get(i).getCodeValue());
            }
+           outMsg="0";
            System.out.println("发送邮件后休眠");
            Thread.sleep(600000);
 
@@ -204,6 +316,12 @@ public class URLAvailability {
                     lineTxt = lineTxt.replace("\uFEFF", "");
                     //在Windows下用文本编辑器创建的文本文件，如果选择以UTF-8等Unicode格式保存，会在文件头加入一个BOM标识
                     //Java在读取Unicode文件的时候，会统一把BOM变成“\uFEFF”
+                }
+                if(lineTxt.startsWith("#")) {
+                    continue;
+                }
+                if(lineTxt.length()<2) {
+                    continue;
                 }
                 infileStr=lineTxt.split("~");
                 if(infileStr.length<2){
