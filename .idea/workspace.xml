@@ -19,20 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="application.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../watchingU/test1/META-INF/application.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="URLAvailability.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../watchingU/test1/src/URLAvailability.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="192" column="5" lean-forward="true" selection-start-line="192" selection-start-column="5" selection-end-line="192" selection-end-column="5" />
+            <state relative-caret-position="73">
+              <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -215,7 +206,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test1/META-INF/application.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../watchingU/test1" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -301,12 +292,12 @@
       <workItem from="1531068226732" duration="187000" />
       <workItem from="1531090187738" duration="285000" />
       <workItem from="1531114252358" duration="736000" />
-      <workItem from="1531190306149" duration="9923000" />
+      <workItem from="1531190306149" duration="16348000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36750000" />
+    <option name="totallyTimeSpent" value="43175000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -318,7 +309,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <layout>
       <window_info anchor="right" id="Palette" order="5" />
       <window_info anchor="bottom" id="TODO" order="11" weight="0.32838285" />
@@ -334,7 +325,7 @@
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.32838285" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="1" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49834985" weight="0.25718608" />
+      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49834985" visible="true" weight="0.25718608" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="JavaEE:App" order="0" sideWeight="0.50165015" side_tool="true" weight="0.24962178" />
       <window_info id="Structure" order="7" sideWeight="0.50165015" side_tool="true" weight="0.24962178" />
@@ -729,8 +720,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../watchingU/test1/src/URLAvailability.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="192" column="5" lean-forward="true" selection-start-line="192" selection-start-column="5" selection-end-line="192" selection-end-column="5" />
+        <state relative-caret-position="73">
+          <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -796,6 +787,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

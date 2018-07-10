@@ -198,7 +198,7 @@ public class URLAvailability {
 
         List<TextDTO> list=readFile( System.getProperty("user.dir").toString()+"/conf/serviceList.conf","UTF-8");
         List<TextDTO> list2=readFile( System.getProperty("user.dir").toString()+"/conf/EmailUserList.conf","UTF-8");
-
+        System.err.println("Info:欢迎使用服务监控小程序！\nInfo:如出现BUG请联系我maoxj\nInfo:由于很多邮箱有反垃圾邮件机制请将服务的反馈邮箱地址标注为非垃圾邮件！");
         while(true){
         for(int i=0;i<list.size();i++){
             String ss=u.isConnect(list.get(i).getCodeValue());
@@ -305,6 +305,11 @@ public class URLAvailability {
         List<TextDTO> list= new ArrayList();
 
         try {
+            File f=new File(filepath);
+            if(!f.exists()){
+                throw new IOException("\n根目录下找不到"+filepath+"文件 请新增文件！\n服务器文件结构:URL~名称 如:http://10.10.10.10:8080~测试服务\n邮件列表文件结构:邮件地址~名称 如:XXXX@qq.com~maoxj \n多条数据回车换行。");
+            }
+
             read = new InputStreamReader(new FileInputStream(filepath), charSet);
             bufferedReader = new BufferedReader(read);
             String lineTxt = null;
