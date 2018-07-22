@@ -40,6 +40,7 @@ public class URLAvailability {
     private static HttpsURLConnection cons;
     //private static Socket socket=new Socket();
     private static int state = -1;
+    private static Long lag = 0l;
 
     /**
      * 功能：检测当前URL是否可连接或是否有效,
@@ -107,6 +108,7 @@ public class URLAvailability {
     public  boolean httpIsConnect(String urlStr){
 
         try{
+            lag=System.currentTimeMillis();
             url = new URL(urlStr);
             con = (HttpURLConnection) url.openConnection();
             con.setConnectTimeout(5000);   //超过5秒就连接超时了
@@ -116,7 +118,7 @@ public class URLAvailability {
            // System.out.println(counts + "= " + state);
             if (state == 200) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                System.out.println(urlStr+" URL可用！"+df.format(new Date()));
+                System.out.println(urlStr+" URL可用！"+df.format(new Date())+" "+(System.currentTimeMillis()-lag)+"ms");
                 return true;
             }else{
                 return false;
@@ -139,6 +141,7 @@ public class URLAvailability {
     public  boolean httpsIsConnect(String urlStr){
 
         try{
+            lag=System.currentTimeMillis();
             url = new URL(urlStr);
             cons = (HttpsURLConnection) url.openConnection();
             cons.setConnectTimeout(5000);   //超过5秒就连接超时了
@@ -148,7 +151,7 @@ public class URLAvailability {
             // System.out.println(counts + "= " + state);
             if (state == 200) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                System.out.println(urlStr+" URL可用！"+df.format(new Date()));
+                System.out.println(urlStr+" URL可用！"+df.format(new Date()) +" "+(System.currentTimeMillis()-lag)+"ms");
                 return true;
             }else{
                 return false;
@@ -170,6 +173,7 @@ public class URLAvailability {
     public  boolean socketIsConnect(String host,int port){
         Socket socket = new Socket();
         try{
+            lag=System.currentTimeMillis();
             //socket.setSoTimeout(1000);
             socket.connect(new InetSocketAddress(host, port),3000);//超时时间为3秒
         }catch (IOException e) {
@@ -187,7 +191,7 @@ public class URLAvailability {
             }
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        System.out.println(host+":"+port+" URL可用！"+df.format(new Date()));
+        System.out.println(host+":"+port+" URL可用！"+df.format(new Date())+" "+(System.currentTimeMillis()-lag)+"ms");
         return true;
 
     }
